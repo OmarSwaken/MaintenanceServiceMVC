@@ -1,0 +1,45 @@
+/* Base font size */
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Reset margins & full height */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Focus styles */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Body layout for sticky footer */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-bottom: 60px;
+}
+
+/* Main content should fill remaining space */
+main {
+    flex: 1 0 auto;
+}
+
+/* Footer styles */
+.footer {
+    padding: 1rem 0; /* Optional styling */
+}

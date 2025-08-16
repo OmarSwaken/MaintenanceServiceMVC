@@ -1,0 +1,73 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\[01] InBox\\MaintenanceServiceMVC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7CAB30B2-3DBE-4DDA-BF80-C998FDE0CB2A}|WebApplication2\\MaintenanceServiceMVC.csproj|d:\\[01] inbox\\maintenanceservicemvc\\webapplication2\\views\\services\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CAB30B2-3DBE-4DDA-BF80-C998FDE0CB2A}|WebApplication2\\MaintenanceServiceMVC.csproj|solutionrelative:webapplication2\\views\\services\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CAB30B2-3DBE-4DDA-BF80-C998FDE0CB2A}|WebApplication2\\MaintenanceServiceMVC.csproj|d:\\[01] inbox\\maintenanceservicemvc\\webapplication2\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CAB30B2-3DBE-4DDA-BF80-C998FDE0CB2A}|WebApplication2\\MaintenanceServiceMVC.csproj|solutionrelative:webapplication2\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CAB30B2-3DBE-4DDA-BF80-C998FDE0CB2A}|WebApplication2\\MaintenanceServiceMVC.csproj|d:\\[01] inbox\\maintenanceservicemvc\\webapplication2\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CAB30B2-3DBE-4DDA-BF80-C998FDE0CB2A}|WebApplication2\\MaintenanceServiceMVC.csproj|solutionrelative:webapplication2\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\[01] InBox\\MaintenanceServiceMVC\\WebApplication2\\Views\\Services\\Details.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Services\\Details.cshtml",
+              "ToolTip": "D:\\[01] InBox\\MaintenanceServiceMVC\\WebApplication2\\Views\\Services\\Details.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Services\\Details.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-16T15:43:10.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\[01] InBox\\MaintenanceServiceMVC\\WebApplication2\\Views\\Services\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApplication2\\Views\\Services\\Index.cshtml",
+              "ToolTip": "D:\\[01] InBox\\MaintenanceServiceMVC\\WebApplication2\\Views\\Services\\Index.cshtml",
+              "RelativeToolTip": "WebApplication2\\Views\\Services\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-16T15:29:38.399Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "D:\\[01] InBox\\MaintenanceServiceMVC\\WebApplication2\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "WebApplication2\\Controllers\\ServicesController.cs",
+              "ToolTip": "D:\\[01] InBox\\MaintenanceServiceMVC\\WebApplication2\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "WebApplication2\\Controllers\\ServicesController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAA0wBUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T15:24:37.512Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
