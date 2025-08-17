@@ -1,9 +1,11 @@
 ﻿using MaintenanceServiceMVC.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace MaintenanceServiceMVC.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options){}
@@ -68,6 +70,14 @@ namespace MaintenanceServiceMVC.Data
                 .WithMany(p => p.Reviews)
                 .HasForeignKey(r => r.ProfessionalId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            // Relationship: One User -> One Customer
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Customer)
+                .HasForeignKey<Customer>(c => c.UserId);
+
             #endregion
 
             #region Seed Data

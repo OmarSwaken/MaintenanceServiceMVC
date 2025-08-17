@@ -23,8 +23,16 @@ namespace MaintenanceServiceMVC.Models
         [StringLength(200)]
         public string Address { get; set; } = string.Empty;
 
+
+        // FK to Identity User
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
+
       
         public ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+
+        
     }
 }
