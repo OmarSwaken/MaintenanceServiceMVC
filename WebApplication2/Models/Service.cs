@@ -18,12 +18,12 @@ namespace MaintenanceServiceMVC.Models
         public ICollection<ProfessionalService> ProfessionalServices { get; set; } = new List<ProfessionalService>();
 
 
-        //ToDrop fields
-        [Range(0, double.MaxValue)]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal BasePrice { get; set; }
-        public bool IsActive { get; set; } = true;
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        //Dropped fields
+        //[Range(0, double.MaxValue)]
+        //[Column(TypeName = "decimal(18,2)")]
+        //public decimal BasePrice { get; set; }
+        //public bool IsActive { get; set; } = true;
+        //public DateTime CreatedDate { get; set; } = DateTime.Now;
 
     }
 }
