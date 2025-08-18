@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApplication2.styles.css" asp-append-version="true" />
 </head>
+
+<partial name="_ValidationScriptsPartial" />
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -19,18 +22,32 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Services" asp-action="Index">Services</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Professionals" asp-action="Index">Professionals</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="ServiceRequests" asp-action="MyRequests">Requests</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Reviews" asp-action="Index">Reviews</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Services" asp-action="Index">Services</a>
+                        </li>
+
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            if (User.IsInRole("Customer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ServiceRequests" asp-action="MyRequests">My Requests</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Professional"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="AssignedRequests">Assigned Requests</a>
+                                </li>
+                            }
+                        }
                     </ul>
 
                     <!-- Right side login/register -->
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link text-dark" href="#">Login</a></li>
-                        <li class="nav-item"><a class="nav-link text-dark" href="#">Register</a></li>
-                    </ul>
+					<partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

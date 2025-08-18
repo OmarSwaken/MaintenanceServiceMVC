@@ -25,7 +25,7 @@ namespace MaintenanceServiceMVC.Models
 
 
         // FK to Identity User
-        public string? UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
         public ApplicationUser? User { get; set; }
 
       

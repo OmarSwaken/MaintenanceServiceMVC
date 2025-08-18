@@ -120,57 +120,15 @@ namespace MaintenanceServiceMVC.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerId");
 
                     b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            Address = "123 Main St, NY",
-                            Email = "john.smith@example.com",
-                            Name = "John Smith",
-                            Phone = "+1-555-1234"
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            Address = "45 Park Ave, LA",
-                            Email = "emily.j@example.com",
-                            Name = "Emily Johnson",
-                            Phone = "+1-555-5678"
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            Address = "78 Oak Rd, TX",
-                            Email = "michael.b@example.com",
-                            Name = "Michael Brown",
-                            Phone = "+1-555-9012"
-                        },
-                        new
-                        {
-                            CustomerId = 4,
-                            Address = "12 Lakeview Dr, FL",
-                            Email = "sarah.d@example.com",
-                            Name = "Sarah Davis",
-                            Phone = "+1-555-3456"
-                        },
-                        new
-                        {
-                            CustomerId = 5,
-                            Address = "90 Sunset Blvd, CA",
-                            Email = "david.w@example.com",
-                            Name = "David Wilson",
-                            Phone = "+1-555-7890"
-                        });
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Professional", b =>
@@ -216,76 +174,16 @@ namespace MaintenanceServiceMVC.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ProfessionalId");
 
-                    b.ToTable("Professionals");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            ProfessionalId = 1,
-                            Email = "james.m@example.com",
-                            ExperienceYears = 8,
-                            HourlyRate = 50m,
-                            IsAvailable = true,
-                            JoinDate = new DateTime(2022, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "James Miller",
-                            Phone = "+1-555-1111",
-                            Rating = 4.5m,
-                            Specialty = "Plumbing"
-                        },
-                        new
-                        {
-                            ProfessionalId = 2,
-                            Email = "olivia.g@example.com",
-                            ExperienceYears = 10,
-                            HourlyRate = 60m,
-                            IsAvailable = true,
-                            JoinDate = new DateTime(2020, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Olivia Garcia",
-                            Phone = "+1-555-2222",
-                            Rating = 4.8m,
-                            Specialty = "Electrical"
-                        },
-                        new
-                        {
-                            ProfessionalId = 3,
-                            Email = "ethan.m@example.com",
-                            ExperienceYears = 6,
-                            HourlyRate = 45m,
-                            IsAvailable = false,
-                            JoinDate = new DateTime(2021, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ethan Martinez",
-                            Phone = "+1-555-3333",
-                            Rating = 4.3m,
-                            Specialty = "Carpentry"
-                        },
-                        new
-                        {
-                            ProfessionalId = 4,
-                            Email = "sophia.r@example.com",
-                            ExperienceYears = 7,
-                            HourlyRate = 40m,
-                            IsAvailable = true,
-                            JoinDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Sophia Rodriguez",
-                            Phone = "+1-555-4444",
-                            Rating = 4.9m,
-                            Specialty = "Cleaning"
-                        },
-                        new
-                        {
-                            ProfessionalId = 5,
-                            Email = "liam.l@example.com",
-                            ExperienceYears = 5,
-                            HourlyRate = 55m,
-                            IsAvailable = true,
-                            JoinDate = new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Liam Lee",
-                            Phone = "+1-555-5555",
-                            Rating = 4.2m,
-                            Specialty = "Painting"
-                        });
+                    b.ToTable("Professionals");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.ProfessionalService", b =>
@@ -307,43 +205,6 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ProfessionalServices");
-
-                    b.HasData(
-                        new
-                        {
-                            ProfessionalId = 1,
-                            ServiceId = 1,
-                            CertificationDate = new DateTime(2023, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCertified = true
-                        },
-                        new
-                        {
-                            ProfessionalId = 2,
-                            ServiceId = 2,
-                            CertificationDate = new DateTime(2022, 9, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCertified = true
-                        },
-                        new
-                        {
-                            ProfessionalId = 3,
-                            ServiceId = 3,
-                            CertificationDate = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCertified = false
-                        },
-                        new
-                        {
-                            ProfessionalId = 4,
-                            ServiceId = 4,
-                            CertificationDate = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCertified = true
-                        },
-                        new
-                        {
-                            ProfessionalId = 5,
-                            ServiceId = 5,
-                            CertificationDate = new DateTime(2024, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsCertified = true
-                        });
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Review", b =>
@@ -377,53 +238,6 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("ProfessionalId");
 
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            ReviewId = 1,
-                            Comment = "Excellent work!",
-                            CustomerId = 1,
-                            ProfessionalId = 1,
-                            Rating = 5,
-                            ReviewDate = new DateTime(2025, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ReviewId = 2,
-                            Comment = "Good service, on time.",
-                            CustomerId = 2,
-                            ProfessionalId = 2,
-                            Rating = 4,
-                            ReviewDate = new DateTime(2025, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ReviewId = 3,
-                            Comment = "Average quality.",
-                            CustomerId = 3,
-                            ProfessionalId = 3,
-                            Rating = 3,
-                            ReviewDate = new DateTime(2025, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ReviewId = 4,
-                            Comment = "Highly recommend!",
-                            CustomerId = 4,
-                            ProfessionalId = 4,
-                            Rating = 5,
-                            ReviewDate = new DateTime(2025, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ReviewId = 5,
-                            Comment = "Nice work, but a bit slow.",
-                            CustomerId = 5,
-                            ProfessionalId = 5,
-                            Rating = 4,
-                            ReviewDate = new DateTime(2025, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Service", b =>
@@ -456,53 +270,6 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasKey("ServiceId");
 
                     b.ToTable("Services");
-
-                    b.HasData(
-                        new
-                        {
-                            ServiceId = 1,
-                            BasePrice = 80m,
-                            CreatedDate = new DateTime(2024, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Fix leaks, replace pipes, and other plumbing services.",
-                            IsActive = true,
-                            Name = "Plumbing Repair"
-                        },
-                        new
-                        {
-                            ServiceId = 2,
-                            BasePrice = 100m,
-                            CreatedDate = new DateTime(2024, 10, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Install, repair, and maintain electrical systems.",
-                            IsActive = true,
-                            Name = "Electrical Work"
-                        },
-                        new
-                        {
-                            ServiceId = 3,
-                            BasePrice = 120m,
-                            CreatedDate = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Custom furniture, repairs, and woodwork.",
-                            IsActive = true,
-                            Name = "Carpentry"
-                        },
-                        new
-                        {
-                            ServiceId = 4,
-                            BasePrice = 60m,
-                            CreatedDate = new DateTime(2025, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Deep cleaning for houses and offices.",
-                            IsActive = true,
-                            Name = "House Cleaning"
-                        },
-                        new
-                        {
-                            ServiceId = 5,
-                            BasePrice = 150m,
-                            CreatedDate = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Interior and exterior painting services.",
-                            IsActive = true,
-                            Name = "Painting"
-                        });
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.ServiceRequest", b =>
@@ -562,71 +329,6 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceRequests");
-
-                    b.HasData(
-                        new
-                        {
-                            ServiceRequestId = 1,
-                            Address = "123 Main St, NY",
-                            CompletedDate = new DateTime(2025, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 1,
-                            Description = "Fix kitchen sink leak",
-                            FinalPrice = 90m,
-                            Notes = "Quick repair.",
-                            ProfessionalId = 1,
-                            RequestDate = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ScheduledDate = new DateTime(2025, 8, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ServiceId = 1,
-                            Status = "Completed"
-                        },
-                        new
-                        {
-                            ServiceRequestId = 2,
-                            Address = "45 Park Ave, LA",
-                            CustomerId = 2,
-                            Description = "Install new ceiling fan",
-                            ProfessionalId = 2,
-                            RequestDate = new DateTime(2025, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ScheduledDate = new DateTime(2025, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ServiceId = 2,
-                            Status = "InProgress"
-                        },
-                        new
-                        {
-                            ServiceRequestId = 3,
-                            Address = "78 Oak Rd, TX",
-                            CustomerId = 3,
-                            Description = "Repair wardrobe door",
-                            Notes = "Needs urgent fix.",
-                            ProfessionalId = 3,
-                            RequestDate = new DateTime(2025, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ServiceId = 3,
-                            Status = "Pending"
-                        },
-                        new
-                        {
-                            ServiceRequestId = 4,
-                            Address = "12 Lakeview Dr, FL",
-                            CustomerId = 4,
-                            Description = "Weekly cleaning service",
-                            ProfessionalId = 4,
-                            RequestDate = new DateTime(2025, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ScheduledDate = new DateTime(2025, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ServiceId = 4,
-                            Status = "Assigned"
-                        },
-                        new
-                        {
-                            ServiceRequestId = 5,
-                            Address = "90 Sunset Blvd, CA",
-                            CustomerId = 5,
-                            Description = "Paint living room",
-                            Notes = "Prefer light blue.",
-                            ProfessionalId = 5,
-                            RequestDate = new DateTime(2025, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ServiceId = 5,
-                            Status = "Pending"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -766,7 +468,20 @@ namespace MaintenanceServiceMVC.Migrations
                 {
                     b.HasOne("MaintenanceServiceMVC.Models.ApplicationUser", "User")
                         .WithOne("Customer")
-                        .HasForeignKey("MaintenanceServiceMVC.Models.Customer", "UserId");
+                        .HasForeignKey("MaintenanceServiceMVC.Models.Customer", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MaintenanceServiceMVC.Models.Professional", b =>
+                {
+                    b.HasOne("MaintenanceServiceMVC.Models.ApplicationUser", "User")
+                        .WithOne("Professional")
+                        .HasForeignKey("MaintenanceServiceMVC.Models.Professional", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -888,8 +603,9 @@ namespace MaintenanceServiceMVC.Migrations
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Customer")
-                        .IsRequired();
+                    b.Navigation("Customer");
+
+                    b.Navigation("Professional");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Customer", b =>

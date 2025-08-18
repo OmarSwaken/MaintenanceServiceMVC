@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaintenanceServiceMVC.Models
@@ -40,9 +41,15 @@ namespace MaintenanceServiceMVC.Models
 
         public DateTime JoinDate { get; set; } = DateTime.Now;
 
-    
+        // FK to Identity User
+        public string UserId { get; set; } = string.Empty;
+        public ApplicationUser? User { get; set; }
+
+        [ValidateNever]
         public ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
+        [ValidateNever]
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        [ValidateNever]
         public ICollection<ProfessionalService> ProfessionalServices { get; set; } = new List<ProfessionalService>();
     }
 }

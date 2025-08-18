@@ -1,0 +1,120 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="needs-validation" novalidate>
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <!-- User Type -->
+    <div class="form-floating mb-3">
+        <select asp-for="Input.UserType" class="form-select" aria-label="Select user type">
+            <option value="">-- Select User Type --</option>
+            <option value="Customer">Customer</option>
+            <option value="Professional">Professional</option>
+        </select>
+        <label asp-for="Input.UserType"></label>
+        <span asp-validation-for="Input.UserType" class="text-danger"></span>
+    </div>
+
+    <!-- Shared fields -->
+    <div class="form-floating mb-3">
+        <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" />
+        <label asp-for="Input.Email"></label>
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password" />
+        <label asp-for="Input.Password"></label>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password" />
+        <label asp-for="Input.ConfirmPassword"></label>
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Input.FullName" class="form-control" placeholder="Full Name" />
+        <label asp-for="Input.FullName"></label>
+        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="Input.Phone" class="form-control" placeholder="Phone Number" />
+        <label asp-for="Input.Phone"></label>
+        <span asp-validation-for="Input.Phone" class="text-danger"></span>
+    </div>
+
+    <!-- Customer fields -->
+    <div id="customer-fields" style="display:none;">
+
+        
+
+        <div class="form-floating mb-3">
+            <input asp-for="Input.CustomerAddress" class="form-control" placeholder="Address" />
+            <label asp-for="Input.CustomerAddress"></label>
+            <span asp-validation-for="Input.CustomerAddress" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Professional fields -->
+    <div id="professional-fields" style="display:none;">
+
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Specialty" class="form-control" placeholder="Specialty" />
+            <label asp-for="Input.Specialty"></label>
+            <span asp-validation-for="Input.Specialty" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Input.ExperienceYears" class="form-control" placeholder="Experience Years" />
+            <label asp-for="Input.ExperienceYears"></label>
+            <span asp-validation-for="Input.ExperienceYears" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input asp-for="Input.HourlyRate" class="form-control" placeholder="Hourly Rate" />
+            <label asp-for="Input.HourlyRate"></label>
+            <span asp-validation-for="Input.HourlyRate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Register</button>
+
+    <div class="text-center">
+        <a class="btn btn-outline-secondary w-100" asp-area="Identity" asp-page="/Account/Login">
+            ← Back to Login
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const userTypeSelect = document.querySelector('[name="Input.UserType"]');
+        const customerFields = document.getElementById('customer-fields');
+        const professionalFields = document.getElementById('professional-fields');
+
+        function toggleFields() {
+            if (userTypeSelect.value === "Customer") {
+                customerFields.style.display = "block";
+                professionalFields.style.display = "none";
+            } else if (userTypeSelect.value === "Professional") {
+                customerFields.style.display = "none";
+                professionalFields.style.display = "block";
+            } else {
+                customerFields.style.display = "none";
+                professionalFields.style.display = "none";
+            }
+        }
+
+        userTypeSelect.addEventListener("change", toggleFields);
+        toggleFields();
+    </script>
+}

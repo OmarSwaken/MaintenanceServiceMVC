@@ -1,4 +1,4 @@
-﻿using MaintenanceServiceMVC.Data;
+using MaintenanceServiceMVC.Data;
 using MaintenanceServiceMVC.Models;   // make sure ApplicationUser is here
 using MaintenanceServiceMVC.Services;
 using Microsoft.AspNetCore.Identity;
@@ -8,15 +8,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ✅ Add Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+// ✅ Use AddIdentity (with roles + token providers)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false; // you can set true if you want email confirmation
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
 
 // Register AuthService
 builder.Services.AddScoped<AuthService>();
@@ -38,6 +42,14 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await DbInitializer.SeedRolesAsync(roleManager);
+}
 
 app.Run();

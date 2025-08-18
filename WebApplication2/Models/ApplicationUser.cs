@@ -8,6 +8,7 @@ namespace MaintenanceServiceMVC.Models
         public string FullName { get; set; }
 
 
-        public Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
+        public Professional? Professional { get; set; }
     }
 }

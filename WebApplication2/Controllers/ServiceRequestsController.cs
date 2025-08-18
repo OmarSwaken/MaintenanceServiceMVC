@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MaintenanceServiceMVC.Controllers
 {
@@ -13,10 +14,19 @@ namespace MaintenanceServiceMVC.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Customer")]
         public IActionResult MyRequests()
         {
             return View();
         }
+
+        [Authorize(Roles = "Professional")]
+        public IActionResult AssignedRequests()
+        {
+            // Only professionals can access
+            return View();
+        }
+
         public IActionResult Details(int id)
         {
             return View();
