@@ -43,6 +43,20 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="AssignedRequests">Assigned Requests</a>
                                 </li>
                             }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Users">Users</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Services">Services</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Requests">Requests</a></li>
+                                    </ul>
+                                </li>
+                            }
                         }
                     </ul>
 

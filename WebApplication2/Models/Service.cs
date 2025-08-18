@@ -14,16 +14,16 @@ namespace MaintenanceServiceMVC.Models
         [StringLength(500)]
         public string Description { get; set; } = string.Empty;
 
+        public ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
+        public ICollection<ProfessionalService> ProfessionalServices { get; set; } = new List<ProfessionalService>();
+
+
+        //ToDrop fields
         [Range(0, double.MaxValue)]
         [Column(TypeName = "decimal(18,2)")]
         public decimal BasePrice { get; set; }
-
         public bool IsActive { get; set; } = true;
-
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        
-        public ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
-        public ICollection<ProfessionalService> ProfessionalServices { get; set; } = new List<ProfessionalService>();
     }
 }

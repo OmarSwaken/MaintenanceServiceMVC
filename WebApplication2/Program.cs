@@ -40,9 +40,12 @@ app.UseRouting();
 app.UseAuthentication();   // this one was missing
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
@@ -50,6 +53,11 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     await DbInitializer.SeedRolesAsync(roleManager);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    await SeedData.SeedAdminAsync(scope.ServiceProvider);
 }
 
 app.Run();

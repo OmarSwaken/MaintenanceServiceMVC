@@ -1,4 +1,5 @@
 ﻿using MaintenanceServiceMVC.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MaintenanceServiceMVC.Controllers
@@ -12,10 +13,20 @@ namespace MaintenanceServiceMVC.Controllers
             _context = context;
         }
 
+        [Authorize (Roles = "Customer")]
         public IActionResult Index()
         {
+            // Show available services in cards.
             var services = _context.Services.ToList();
             return View(services);
+        }
+
+        [Authorize(Roles = "Customer")]
+        public IActionResult ChooseProfessionalService(int serviceId)
+        {
+            //Show list of professionals' services from Model(ProfessionalService) filtered by service, sortable by price/rate, searchable by name.
+
+            return View();
         }
 
         public IActionResult Details(int id)
