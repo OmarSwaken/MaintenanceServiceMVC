@@ -60,4 +60,5 @@ using (var scope = app.Services.CreateScope())
     await SeedData.SeedAdminAsync(scope.ServiceProvider);
 }
 
+
 app.Run();

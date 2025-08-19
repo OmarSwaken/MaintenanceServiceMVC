@@ -56,6 +56,7 @@ namespace MaintenanceServiceMVC.Controllers
                 return RedirectToAction("AdminIndex");
             }
             // If model state is invalid, return to the view with the current service data.
+
             return View(service);
         }
 
