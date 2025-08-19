@@ -84,6 +84,12 @@ namespace MaintenanceServiceMVC.Data
                 .WithOne(u => u.Professional)
                 .HasForeignKey<Professional>(c => c.UserId);
 
+            // Unique Service Name
+            modelBuilder.Entity<Service>()
+                .HasIndex(s => s.Name)
+                .IsUnique();
+                
+
             #endregion
 
             //#region Seed Data
