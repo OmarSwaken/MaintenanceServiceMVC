@@ -1,5 +1,6 @@
 using MaintenanceServiceMVC.Data;
 using MaintenanceServiceMVC.Models;   // make sure ApplicationUser is here
+using MaintenanceServiceMVC.Repositories;
 using MaintenanceServiceMVC.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // Register AuthService
 builder.Services.AddScoped<AuthService>();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
