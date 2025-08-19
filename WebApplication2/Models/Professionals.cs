@@ -48,11 +48,11 @@ namespace MaintenanceServiceMVC.Models
         public ICollection<ProfessionalService> ProfessionalServices { get; set; } = new List<ProfessionalService>();
         
         
-        //ToDrop fiels
-        [Range(0, 60)]
-        public int ExperienceYears { get; set; }
-        [Range(0, double.MaxValue)]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal HourlyRate { get; set; }
+        //Dropped fiels
+        //[Range(0, 60)]
+        //public int ExperienceYears { get; set; }
+        //[Range(0, double.MaxValue)]
+        //[Column(TypeName = "decimal(18,2)")]
+        //public decimal HourlyRate { get; set; }
     }
 }

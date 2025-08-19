@@ -57,8 +57,8 @@ public class RegisterModel : PageModel
 
         // Professional fields
         public string? Specialty { get; set; }
-        public int? ExperienceYears { get; set; }
-        public decimal? HourlyRate { get; set; }
+        //public int? ExperienceYears { get; set; }
+        //public decimal? HourlyRate { get; set; }
     }
 
     public IActionResult OnGet(string? returnUrl = null)
@@ -120,8 +120,8 @@ public class RegisterModel : PageModel
                         Email = Input.Email,
                         Phone = Input.Phone,
                         Specialty = Input.Specialty ?? "",
-                        ExperienceYears = Input.ExperienceYears ?? 0,
-                        HourlyRate = Input.HourlyRate ?? 0,
+                        //ExperienceYears = Input.ExperienceYears ?? 0,
+                        //HourlyRate = Input.HourlyRate ?? 0,
                         UserId = user.Id
                     });
                 }

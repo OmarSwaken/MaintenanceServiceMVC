@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MaintenanceServiceMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b5099f4c18bf2c793392bacc435b976fda62427e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0307ed54f9b4d4bd53a95e8395eb023c541a8a1d")]
 [assembly: System.Reflection.AssemblyProductAttribute("MaintenanceServiceMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MaintenanceServiceMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
