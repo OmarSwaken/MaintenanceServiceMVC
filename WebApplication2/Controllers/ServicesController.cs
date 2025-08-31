@@ -1,6 +1,5 @@
-﻿//using MaintenanceServiceMVC.Data;
+﻿using MaintenanceServiceMVC.Data;
 using MaintenanceServiceMVC.Models;
-using MaintenanceServiceMVC.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,28 +7,25 @@ namespace MaintenanceServiceMVC.Controllers
 {
     public class ServicesController : Controller
     {
-        
+        private readonly AppDbContext _context;
 
-        private readonly IRepository<Service> _serviceRepository;
-
-        public ServicesController(IRepository<Service> serviceRepository)
+        public ServicesController(AppDbContext context)
         {
-            _serviceRepository = serviceRepository;
+            _context = context;
         }
 
         [AllowAnonymous]
-        public async Task <IActionResult> Index()
+        public IActionResult Index()
         {
-            // Show available services in cards.
-            var services = await _serviceRepository.GetAllAsync();
+            var services = _context.Services.ToList();
             return View(services);
         }
 
         [Authorize (Roles = "Admin")]
-        public async Task<IActionResult> AdminIndex()
+        public IActionResult AdminIndex()
         {
-            // Show all services in a table with options to create, edit, delete.
-            var services = await _serviceRepository.GetAllAsync();
+            var services = _context.Services.ToList();
+            
             return View(services);
         }
 
@@ -37,35 +33,34 @@ namespace MaintenanceServiceMVC.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            // Show form to create a new service.
             return View();
         }
 
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Create(Service service)
+        public IActionResult Create(Service service)
         {
-            var existing = (await _serviceRepository.FindAsync(s => s.Name == service.Name)).FirstOrDefault();
-            if (existing != null)
+            if (_context.Services.Any(s => s.Name == service.Name))
             {
                 ModelState.AddModelError("Name", "Service name must be unique.");
             }
-            
+
             if (ModelState.IsValid)
             {
-                await _serviceRepository.AddAsync(service);
-                await _serviceRepository.SaveChangesAsync();
+                _context.Services.Add(service);
+                _context.SaveChanges();
                 return RedirectToAction("AdminIndex");
             }
+
             return View(service);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
-            var service = await _serviceRepository.GetByIdAsync(id);
+            var service = _context.Services.FirstOrDefault(s => s.ServiceId == id);
             if (service == null) return NotFound();
             return View(service);
         }
@@ -73,19 +68,18 @@ namespace MaintenanceServiceMVC.Controllers
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Edit(Service model)
+        public IActionResult Edit(Service model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var service = await _serviceRepository.GetByIdAsync(model.ServiceId);
-            if (service == null) return NotFound();
+            var service = _context.Services.Find(model.ServiceId);
+            if (service == null)
+                return NotFound();
 
             service.Name = model.Name;
             service.Description = model.Description;
-
-            _serviceRepository.Update(service);
-            await _serviceRepository.SaveChangesAsync();
+            _context.SaveChanges();
 
             return RedirectToAction("AdminIndex");
         }
@@ -93,28 +87,28 @@ namespace MaintenanceServiceMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var service = await _serviceRepository.GetByIdAsync(id);
+            var service = _context.Services.Find(id);
             if (service == null) return NotFound();
 
-            _serviceRepository.Delete(service);
-            await _serviceRepository.SaveChangesAsync();
+            _context.Services.Remove(service);
+            _context.SaveChanges();
 
-            var services = await _serviceRepository.GetAllAsync();
+            var services = _context.Services.ToList();
             return PartialView("_ServiceTable", services);
         }
+
         [Authorize(Roles = "Customer")]
         public IActionResult ChooseProfessionalService(int serviceId)
         {
-            
-            //Show list of professionals' services from Model(ProfessionalService) filtered by service, sortable by price/rate, searchable by name.
+
             return View();
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
-            var service = await _serviceRepository.GetByIdAsync(id);
+            var service = _context.Services.FirstOrDefault(s => s.ServiceId == id);
             if (service == null) return NotFound();
             return View(service);
         }

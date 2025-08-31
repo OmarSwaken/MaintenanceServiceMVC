@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MaintenanceServiceMVC.Models.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MaintenanceServiceMVC.Models
@@ -10,7 +11,9 @@ namespace MaintenanceServiceMVC.Models
         [Required]
         public int CustomerId { get; set; }
 
-        public int? ProfessionalId { get; set; }
+
+        [Required]
+        public int ProfessionalId { get; set; }
 
         [Required]
         public int ServiceId { get; set; }
@@ -24,6 +27,7 @@ namespace MaintenanceServiceMVC.Models
 
         public DateTime RequestDate { get; set; } = DateTime.Now;
 
+        [FutureDate(ErrorMessage = "Scheduled date must be in the future.")]
         public DateTime? ScheduledDate { get; set; }
 
         public DateTime? CompletedDate { get; set; }
@@ -41,8 +45,8 @@ namespace MaintenanceServiceMVC.Models
         public string? Notes { get; set; }
 
         
-        public Customer Customer { get; set; } = null!;
+        public Customer? Customer { get; set; } = null!;
         public Professional? Professional { get; set; }
-        public Service Service { get; set; } = null!;
+        public Service? Service { get; set; } = null!;
     }
 }

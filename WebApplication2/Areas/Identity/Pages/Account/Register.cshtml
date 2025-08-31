@@ -66,23 +66,21 @@
     <!-- Professional fields -->
     <div id="professional-fields" style="display:none;">
 
-        <div class="form-floating mb-3">
-            <input asp-for="Input.Specialty" class="form-control" placeholder="Specialty" />
-            <label asp-for="Input.Specialty"></label>
-            <span asp-validation-for="Input.Specialty" class="text-danger"></span>
-        </div>
 
-        @* <div class="form-floating mb-3">
-            <input asp-for="Input.ExperienceYears" class="form-control" placeholder="Experience Years" />
-            <label asp-for="Input.ExperienceYears"></label>
-            <span asp-validation-for="Input.ExperienceYears" class="text-danger"></span>
+
+        <div class="form-floating mb-3">
+            <select asp-for="Input.ServiceId" asp-items="Model.Services" class="form-select">
+                <option value="">-- Select Service --</option>
+            </select>
+            <label asp-for="Input.ServiceId"></label>
+            <span asp-validation-for="Input.ServiceId" class="text-danger"></span>
         </div>
 
         <div class="form-floating mb-3">
             <input asp-for="Input.HourlyRate" class="form-control" placeholder="Hourly Rate" />
             <label asp-for="Input.HourlyRate"></label>
             <span asp-validation-for="Input.HourlyRate" class="text-danger"></span>
-        </div> *@
+        </div> 
     </div>
 
     <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Register</button>
@@ -116,5 +114,5 @@
 
         userTypeSelect.addEventListener("change", toggleFields);
         toggleFields();
-    </script>
+    </script> 
 }

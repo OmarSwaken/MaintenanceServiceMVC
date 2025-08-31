@@ -1,8 +1,79 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<MaintenanceServiceMVC.Models.Service>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+
+    <!-- Banner -->
+    <div class="p-5 mb-4 bg-light rounded-3 text-center shadow-sm">
+        <h1 class="display-5 fw-bold">Welcome to Maintenance Service</h1>
+        <p class="lead">Connecting customers with trusted professionals for all your service needs.</p>
+
+        @if (User.IsInRole("Customer"))
+        {
+            <a href="/ServiceRequest/Create" class="btn btn-primary btn-lg">Request a Service</a>
+        }
+    </div>
+
+    <!-- How it works -->
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4>Request</h4>
+                    <p>Customers create a service request with details and schedule.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4>Accept</h4>
+                    <p>Professionals review and accept or reject the request.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h4>Complete</h4>
+                    <p>The job gets done! Secure and reliable services every time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Offered -->
+    <h2 class="mb-4">Our Services</h2>
+    <div class="row">
+        @foreach (var service in Model)
+        {
+            <div class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@service.Name</h5>
+                    <p class="card-text">@service.Description</p>
+
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <!-- Customer → goes to Professionals list filtered by serviceId -->
+                        <a asp-controller="Professionals"
+                           asp-action="Index"
+                           asp-route-serviceId="@service.ServiceId"
+                           class="btn btn-outline-primary">Request</a>
+                    }
+                    else if (!User.Identity?.IsAuthenticated ?? true)
+                    {
+                        <!-- Anonymous → login first -->
+                        <a asp-area="Identity"
+                           asp-page="/Account/Login"
+                           asp-route-returnUrl="@Url.Action("Index", "Professionals", new { serviceId = service.ServiceId })"
+                           class="btn btn-outline-primary">Request</a>
+                    }
+                    <!-- Professionals see no button -->
+                </div>
+            </div>
+        }
+
+
+
+    </div>
+
 </div>

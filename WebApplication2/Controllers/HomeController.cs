@@ -1,5 +1,7 @@
-using System.Diagnostics;
+using MaintenanceServiceMVC.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -7,15 +9,20 @@ namespace WebApplication2.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext context, ILogger<HomeController> logger)
         {
+            _context = context;
             _logger = logger;
         }
 
+
+
         public IActionResult Index()
         {
-            return View();
+            var services = _context.Services.Take(6).ToList();
+            return View(services);
         }
 
         public IActionResult About()

@@ -1,45 +1,35 @@
-﻿//using MaintenanceServiceMVC.Data;
+﻿using MaintenanceServiceMVC.Data;
 using MaintenanceServiceMVC.Models;
+using MaintenanceServiceMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MaintenanceServiceMVC.Repositories;
 
 namespace MaintenanceServiceMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IRepository<ApplicationUser> _userRepository;
-        private readonly IRepository<Customer> _customerRepository;
-        private readonly IRepository<Professional> _professionalRepository;
-        private readonly IRepository<Service> _serviceRepository;
-        private readonly IRepository<ServiceRequest> _requestRepository;
+        private readonly AppDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AdminController(
-            IRepository<ApplicationUser> userRepository,
-            IRepository<Customer> customerRepository,
-            IRepository<Professional> professionalRepository,
-            IRepository<Service> serviceRepository,
-            IRepository<ServiceRequest> requestRepository,
-            UserManager<ApplicationUser> userManager)
+
+        public AdminController(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _userRepository = userRepository;
-            _customerRepository = customerRepository;
-            _professionalRepository = professionalRepository;
-            _serviceRepository = serviceRepository;
-            _requestRepository = requestRepository;
+            _context = context;
             _userManager = userManager;
-        }
+            _roleManager = roleManager;
 
+        }
 
         public async Task<IActionResult> Dashboard()
         {
             var totalUsers = _userManager.Users.Count();
-            var totalCustomers = (await _customerRepository.GetAllAsync()).Count();
-            var totalProfessionals = (await _professionalRepository.GetAllAsync()).Count();
-            var totalServices = (await _serviceRepository.GetAllAsync()).Count();
-            var totalRequests = (await _requestRepository.GetAllAsync()).Count();
+            var totalCustomers = _context.Customers.Count();
+            var totalProfessionals = _context.Professionals.Count();
+            var totalServices = _context.Services.Count();
+            var totalRequests = _context.ServiceRequests.Count();
 
             var model = new AdminDashboardViewModel
             {
@@ -53,32 +43,64 @@ namespace MaintenanceServiceMVC.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult UserManagement()
+        public async Task<IActionResult> Users()
         {
             var users = _userManager.Users.ToList();
-            return View(users);
+
+            var userRoles = new List<UserWithRolesVM>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userRoles.Add(new UserWithRolesVM
+                {
+                    UserId = user.Id,
+                    Email = user.Email ?? "",
+                    Roles = roles.ToList()
+                });
+            }
+
+            return View(userRoles);
         }
 
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ServiceManagement()
+        // GET: Edit Password
+        public async Task<IActionResult> EditPassword(string id)
         {
-            var services = await _serviceRepository.GetAllAsync();
-            return View(services);
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
+
+            return View(new EditPasswordVM { UserId = user.Id, Email = user.Email ?? "" });
         }
 
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult UserManagement()
-        //{
-        //    // Manage users (view, edit, delete users)
-        //    return View();
-        //}
+        // POST: Edit Password
+        [HttpPost]
+        public async Task<IActionResult> EditPassword(EditPasswordVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
 
-        //[Authorize(Roles = "Admin")]
-        //public IActionResult ServiceManagement()
-        //{
-        //    // Manage services (view, add, edit, delete services)
-        //    return View();
-        //}
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null) return NotFound();
+
+            // Remove old password if exists
+            var hasPassword = await _userManager.HasPasswordAsync(user);
+            if (hasPassword)
+            {
+                await _userManager.RemovePasswordAsync(user);
+            }
+
+            var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
     }
 }

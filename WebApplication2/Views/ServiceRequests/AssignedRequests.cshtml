@@ -1,47 +1,47 @@
 ﻿@model IEnumerable<MaintenanceServiceMVC.Models.ServiceRequest>
 
-<h2>My Requests</h2>
+<h2>My Service Requests</h2>
 
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Service</th>
+            <th>Customer</th>
             <th>Description</th>
+            <th>Address</th>
             <th>Request Date</th>
             <th>Scheduled Date</th>
-            <th>Professional</th>
-            <th>Status</th>
+            <th>Status / Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var request in Model)
         {
             <tr>
-                <td>@request.Service?.Name</td>
+                <td>@request.Customer?.User?.FullName</td>
                 <td>@request.Description</td>
+                <td>@request.Address</td>
                 <td>@request.RequestDate.ToString("g")</td>
                 <td>@(request.ScheduledDate?.ToString("g") ?? "Not scheduled")</td>
-                <td>@request.Professional?.User?.FullName</td>
                 <td>
                     @if (request.Status == "Pending")
                     {
-                        <span class="badge bg-warning text-dark">Pending</span>
+                        <form asp-action="UpdateStatus" method="post">
+                            <input type="hidden" name="id" value="@request.ServiceRequestId" />
+                            <button type="submit" name="status" value="Accepted" class="btn btn-success btn-sm">Accept</button>
+                            <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm">Reject</button>
+                        </form>
                     }
                     else if (request.Status == "Accepted")
                     {
-                        <span class="badge bg-success">Accepted</span>
+                        <span class="text-success fw-bold">Accepted</span>
                     }
                     else if (request.Status == "Rejected")
                     {
-                        <span class="badge bg-danger">Rejected</span>
+                        <span class="text-danger fw-bold">Rejected</span>
                     }
-                    else if (request.Status == "Completed")
+                    else
                     {
-                        <span class="badge bg-primary">Completed</span>
-                    }
-                    else if (request.Status == "Cancelled")
-                    {
-                        <span class="badge bg-secondary">Cancelled</span>
+                        <span>@request.Status</span>
                     }
                 </td>
             </tr>

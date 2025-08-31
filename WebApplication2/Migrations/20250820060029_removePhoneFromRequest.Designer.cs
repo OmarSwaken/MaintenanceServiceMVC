@@ -4,6 +4,7 @@ using MaintenanceServiceMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaintenanceServiceMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250820060029_removePhoneFromRequest")]
+    partial class removePhoneFromRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +120,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Professional", b =>
@@ -151,7 +154,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Professionals", (string)null);
+                    b.ToTable("Professionals");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Review", b =>
@@ -184,7 +187,7 @@ namespace MaintenanceServiceMVC.Migrations
 
                     b.HasIndex("ProfessionalId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Service", b =>
@@ -210,7 +213,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.ServiceRequest", b =>
@@ -269,7 +272,7 @@ namespace MaintenanceServiceMVC.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("ServiceRequests", (string)null);
+                    b.ToTable("ServiceRequests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

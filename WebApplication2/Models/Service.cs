@@ -13,10 +13,12 @@ namespace MaintenanceServiceMVC.Models
         public string Name { get; set; } = string.Empty;
 
         [StringLength(500)]
-        public string? Description { get; set; }
+        [Required]
+        public string Description { get; set; } = string.Empty;
+
 
         public ICollection<ServiceRequest> ServiceRequests { get; set; } = new List<ServiceRequest>();
-        public ICollection<ProfessionalService> ProfessionalServices { get; set; } = new List<ProfessionalService>();
+        public ICollection<Professional> Professionals { get; set; } = new List<Professional>();
 
 
         //Dropped fields

@@ -4,6 +4,7 @@ using MaintenanceServiceMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MaintenanceServiceMVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250819152318_OneServicePerProf")]
+    partial class OneServicePerProf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,11 +46,7 @@ namespace MaintenanceServiceMVC.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("JoinDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -101,12 +100,27 @@ namespace MaintenanceServiceMVC.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1000L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -117,7 +131,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Professional", b =>
@@ -126,7 +140,12 @@ namespace MaintenanceServiceMVC.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessionalId"), 1000L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessionalId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
 
                     b.Property<decimal>("HourlyRate")
                         .HasColumnType("decimal(18,2)");
@@ -134,11 +153,29 @@ namespace MaintenanceServiceMVC.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("JoinDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
                     b.Property<decimal>("Rating")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Specialty")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -151,7 +188,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Professionals", (string)null);
+                    b.ToTable("Professionals");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Review", b =>
@@ -160,7 +197,7 @@ namespace MaintenanceServiceMVC.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"), 1000L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
 
                     b.Property<string>("Comment")
                         .HasMaxLength(1000)
@@ -184,7 +221,7 @@ namespace MaintenanceServiceMVC.Migrations
 
                     b.HasIndex("ProfessionalId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.Service", b =>
@@ -193,7 +230,7 @@ namespace MaintenanceServiceMVC.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceId"), 1000L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -210,7 +247,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("MaintenanceServiceMVC.Models.ServiceRequest", b =>
@@ -219,7 +256,7 @@ namespace MaintenanceServiceMVC.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceRequestId"), 1000L);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceRequestId"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -244,7 +281,7 @@ namespace MaintenanceServiceMVC.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("ProfessionalId")
+                    b.Property<int?>("ProfessionalId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RequestDate")
@@ -269,7 +306,7 @@ namespace MaintenanceServiceMVC.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("ServiceRequests", (string)null);
+                    b.ToTable("ServiceRequests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -465,8 +502,7 @@ namespace MaintenanceServiceMVC.Migrations
                     b.HasOne("MaintenanceServiceMVC.Models.Professional", "Professional")
                         .WithMany("ServiceRequests")
                         .HasForeignKey("ProfessionalId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("MaintenanceServiceMVC.Models.Service", "Service")
                         .WithMany("ServiceRequests")

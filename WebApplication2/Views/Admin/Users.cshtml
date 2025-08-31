@@ -1,0 +1,26 @@
+﻿@using MaintenanceServiceMVC.ViewModels
+@model IEnumerable<UserWithRolesVM>
+
+<h2>All Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <a asp-action="EditPassword" asp-route-id="@user.UserId" class="btn btn-sm btn-warning">Edit Password</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

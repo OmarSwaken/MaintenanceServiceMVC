@@ -3,6 +3,8 @@ using MaintenanceServiceMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -25,6 +27,8 @@ public class RegisterModel : PageModel
     [BindProperty]
     public InputModel Input { get; set; } = new();
 
+    public SelectList Services { get; set; }
+
     public string? ReturnUrl { get; set; }
 
     public class InputModel
@@ -38,12 +42,14 @@ public class RegisterModel : PageModel
         [Required, EmailAddress]
         public string Email { get; set; } = string.Empty;
 
+
         [Required]
         [DataType(DataType.Password)]
         [StringLength(100, MinimumLength = 6)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).+$",
             ErrorMessage = "Password must have uppercase, lowercase, number, and special character")]
         public string Password { get; set; } = string.Empty;
+
 
         [Required, DataType(DataType.Password)]
         [Compare("Password")]
@@ -53,20 +59,26 @@ public class RegisterModel : PageModel
         public string Phone { get; set; } = string.Empty;
 
         // Customer fields
-        public string? CustomerAddress { get; set; }
+        //[Required]
+        public string? CustomerAddress { get; set; } = string.Empty;
 
         // Professional fields
-        public string? Specialty { get; set; }
-        //public int? ExperienceYears { get; set; }
-        //public decimal? HourlyRate { get; set; }
+
+        //[Required(ErrorMessage = "Service is required")]
+        public int? ServiceId { get; set; }
+
+        //[Required]
+        public decimal HourlyRate { get; set; }
     }
 
-    public IActionResult OnGet(string? returnUrl = null)
+    public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
     {
         if (_signInManager.IsSignedIn(User))
         {
             return RedirectToPage("/Index"); // or "/Account/Profile"
         }
+
+        Services = new SelectList(await _context.Services.ToListAsync(), "ServiceId", "Name");
 
         ReturnUrl = returnUrl;
         return Page();
@@ -89,7 +101,8 @@ public class RegisterModel : PageModel
                 UserName = Input.Email,
                 Email = Input.Email,
                 FullName = Input.FullName,
-                PhoneNumber = Input.Phone
+                PhoneNumber = Input.Phone,
+                JoinDate = DateTime.Now
             };
 
             var result = await _userManager.CreateAsync(user, Input.Password);
@@ -103,9 +116,6 @@ public class RegisterModel : PageModel
 
                     _context.Customers.Add(new Customer
                     {
-                        Name = Input.FullName,
-                        Email = Input.Email,
-                        Phone = Input.Phone,
                         Address = Input.CustomerAddress,
                         UserId = user.Id
                     });
@@ -113,17 +123,23 @@ public class RegisterModel : PageModel
                 else if (Input.UserType == "Professional")
                 {
                     await _userManager.AddToRoleAsync(user, "Professional");
+                    var serviceId = Input.ServiceId;
+
+                    // If user didn’t pick, choose first service as default
+                    if (serviceId == null)
+                    {
+                        serviceId = await _context.Services
+                                                  .Select(s => s.ServiceId)
+                                                  .FirstOrDefaultAsync();
+                    }
 
                     _context.Professionals.Add(new Professional
                     {
-                        Name = Input.FullName,
-                        Email = Input.Email,
-                        Phone = Input.Phone,
-                        Specialty = Input.Specialty ?? "",
-                        //ExperienceYears = Input.ExperienceYears ?? 0,
-                        //HourlyRate = Input.HourlyRate ?? 0,
-                        UserId = user.Id
+                        UserId = user.Id,
+                        HourlyRate = Input.HourlyRate,
+                        ServiceId = serviceId.Value
                     });
+                    
                 }
 
                 await _context.SaveChangesAsync();
@@ -140,7 +156,8 @@ public class RegisterModel : PageModel
             }
         }
 
-        // If we got this far, something failed.
+        // reload services list if form fails
+        Services = new SelectList(await _context.Services.ToListAsync(), "ServiceId", "Name");
         return Page();
     }
 }

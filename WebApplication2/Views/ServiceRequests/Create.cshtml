@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model MaintenanceServiceMVC.Models.ServiceRequest
 @{
+    ViewData["Title"] = "Create Service Request";
+}
+
+<h2>Create Service Request</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="ProfessionalId" value="@Model.ProfessionalId" />
+    <input type="hidden" asp-for="ServiceId" value="@Model.ServiceId" />
+
+    <div class="mb-3">
+        <label class="form-label">Professional</label>
+        <input class="form-control" value="@ViewBag.ProfessionalName" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Service</label>
+        <input class="form-control" value="@ViewBag.ServiceName" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ScheduledDate" class="form-label">Scheduled Date (optional)</label>
+        <input asp-for="ScheduledDate" type="datetime-local" class="form-control" />
+        <span asp-validation-for="ScheduledDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notes" class="form-label">Notes (optional)</label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Request</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
